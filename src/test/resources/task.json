@@ -1,0 +1,10 @@
+{
+  "clientName": "olino",
+  "emailClient": "john.doe@example.com",
+  "telephoneClient": "+123456789",
+  "hotelName": "lfar7",
+  "dateReservation": "2024-09-01T10:00:00",
+  "dateArrivee": "2024-09-15T14:00:00",
+  "dateDepart": "2024-09-20T12:00:00",
+  "nombrePersonnes": 2
+}
