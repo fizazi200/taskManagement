@@ -8,6 +8,7 @@ import kata.tasks.model.Task;
 import kata.tasks.repository.TaskRepo;
 import org.springframework.security.core.Authentication;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
@@ -48,5 +49,15 @@ public class ServiceTask {
      public void delete(Long id){
         taskRepo.deleteById(id);
      }
+
+    public boolean isOwner(Long taskId) {
+        TaskEntity task = taskRepo.findById(taskId)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        Jwt jwt= (Jwt)SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+
+        return task.getOwner().getUsername().equals(jwt.getSubject());
+    }
 
 }

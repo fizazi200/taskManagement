@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>Kata</groupId>
-    <artifactId>kata.tasks</artifactId>2
+    <artifactId>kata.tasks</artifactId>
 
     <version>1.0-SNAPSHOT</version>
 

@@ -25,20 +25,23 @@ public class Controller {
      }
 
 
-    @PutMapping("/{taskId}")
-    public void updateTask( @PathVariable("taskId") Long taskId,@RequestBody Task task){
-         serviceTask.update(taskId, task);
-     }
+    @PutMapping("/{id}")
+    @PreAuthorize("@serviceTask.isOwner(#id)")
+    public void updateTask( @PathVariable("id") Long id,@RequestBody Task task){
+        serviceTask.update(id, task);
+    }
 
-     @GetMapping
+
+    @GetMapping
     public List<Task> getTasks(@RequestParam(value = "status",required = false) String status){
         return  serviceTask.getTasks(Status.fromValue(status));
      }
 
 
-    @DeleteMapping("/{taskId}")
-    public void deleteTask(@PathVariable("taskId")  Long taskId){
-         serviceTask.delete(taskId);
+    @DeleteMapping("/{id}")
+    @PreAuthorize("@serviceTask.isOwner(#id)")
+    public void deleteTask(@PathVariable("id")  Long id){
+         serviceTask.delete(id);
      }
 
 
