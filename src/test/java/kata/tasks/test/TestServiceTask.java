@@ -1,7 +1,8 @@
-package kata.tasks;
+package kata.tasks.test;
 
 
 
+import jakarta.transaction.Transactional;
 import kata.tasks.entity.TaskEntity;
 import kata.tasks.model.Status;
 import kata.tasks.model.Task;
@@ -26,9 +27,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class ServiceTaskTest {
+@Transactional
+public class TestServiceTask {
 
     @Mock
     private TaskRepo taskRepo;
@@ -46,6 +48,7 @@ public class ServiceTaskTest {
 
     @Test
     void testSave() {
+        System.out.println("#######################################################");
         Task task = new Task();
         task.setTitre("Test");
         task.setDescription("test task decription");

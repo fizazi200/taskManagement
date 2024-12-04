@@ -1,16 +1,17 @@
-package kata.tasks;
+package kata.tasks.test;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import kata.tasks.entity.TaskEntity;
 import kata.tasks.model.Status;
 import kata.tasks.model.Task;
 import kata.tasks.repository.TaskRepo;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -22,28 +23,30 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.mockito.ArgumentMatchers.contains;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@ExtendWith(SpringExtension.class)
-@ActiveProfiles("test")
 @EnableAutoConfiguration(exclude = SecurityAutoConfiguration.class)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TaskControllerTest {
+@ActiveProfiles("test")
+public class TestTaskController {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private static  ObjectMapper objectMapper;
 
     @Autowired
     TaskRepo taskRepo;
 
+    @BeforeAll
+    public static void setUp() {
+         objectMapper=new ObjectMapper();
+         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+         objectMapper.registerModule(new JavaTimeModule());
+    }
 
     @Test
     @Order(1)
